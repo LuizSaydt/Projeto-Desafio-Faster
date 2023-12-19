@@ -9,5 +9,6 @@ import type { InferDisksFromConfig } from "@adonisjs/core/build/config";
 import type driveConfig from "../config/drive";
 
 declare module "@ioc:Adonis/Core/Drive" {
+  // eslint-disable-next-line no-unused-vars
   interface DisksList extends InferDisksFromConfig<typeof driveConfig> {}
 }

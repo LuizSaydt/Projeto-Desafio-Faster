@@ -8,10 +8,12 @@
 import "@japa/runner";
 
 declare module "@japa/runner" {
+  // eslint-disable-next-line no-unused-vars
   interface TestContext {
     // Extend context
   }
 
+  // eslint-disable-next-line no-unused-vars
   interface Test<TestData> {
     // Extend test
   }

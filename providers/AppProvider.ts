@@ -1,6 +1,7 @@
 import type { ApplicationContract } from "@ioc:Adonis/Core/Application";
 
 export default class AppProvider {
+  // eslint-disable-next-line no-unused-vars
   constructor (protected app: ApplicationContract) {
   }
 

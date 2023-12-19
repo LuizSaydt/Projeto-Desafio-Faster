@@ -19,6 +19,7 @@ declare module "@ioc:Adonis/Core/Env" {
   */
 
   type CustomTypes = typeof import("../env").default
+  // eslint-disable-next-line no-unused-vars
   interface EnvTypes extends CustomTypes {
   }
 }
