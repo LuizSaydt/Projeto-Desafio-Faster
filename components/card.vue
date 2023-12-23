@@ -4,15 +4,17 @@ import { onMounted, ref } from "vue";
 import { Modal } from "flowbite";
 import type { ModalOptions, ModalInterface } from "flowbite";
 import type { InstanceOptions } from "flowbite";
+import type { User } from "~/interfaces";
 
-const props = defineProps({
-  id: { type: Number, required: true },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  imageId: { type: Number, required: true },
-  category: { type: String, required: true },
-  favorite: { type: Boolean, default: false }
-});
+const props = defineProps<{
+  id: number,
+  name: string,
+  description: string,
+  imageId: number,
+  category: string,
+  favorite?: boolean,
+  user?: User | null | ""
+}>();
 
 const pending = ref<boolean>(true);
 const drinkImageBase64 = ref<string>();
@@ -20,6 +22,8 @@ const error = ref<any>(null);
 const modal = ref<ModalInterface>();
 
 onMounted(() => {
+
+  console.log(props.user);
 
   const $modalElement: HTMLElement | null = document.querySelector(`#modal${props.id}`);
 
@@ -105,6 +109,7 @@ const emit = defineEmits(["updateFavorites"]);
         :alt="name"
       >
       <div
+        v-if="user"
         class="absolute top-0 right-0 cursor-pointer"
         :class="[favorite ? 'text-pink-600' : 'text-gray-800']"
         @click="changeFavoriteStatus"

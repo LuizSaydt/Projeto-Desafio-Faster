@@ -153,6 +153,7 @@ async function updateFavorites () : Promise<void> {
             :description="drink.description"
             :image-id="drink.image?.id || 0"
             :favorite="drink.favorite"
+            :user="user"
             class="ml-4 mr-4 w-full md:w-64 md:ml-0 md:mr-0"
             @update-favorites="updateFavorites"
           />
