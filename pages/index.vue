@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFetch, useRequestHeaders, refreshNuxtData } from "#app";
+import { useFetch, useRequestHeaders } from "#app";
 import { ref } from "vue";
 import type { Drink, User } from "../interfaces";
 

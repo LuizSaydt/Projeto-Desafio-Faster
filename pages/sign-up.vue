@@ -20,7 +20,7 @@ const signUp = async () => {
       username: username.value,
       password: password.value
     }
-  }).then(res => {
+  }).then(() => {
     navigateTo({ path: "/" });
   }, error => {
     console.log("exception...");
