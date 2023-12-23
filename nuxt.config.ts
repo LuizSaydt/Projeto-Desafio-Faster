@@ -7,5 +7,13 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
     strict: true
+  },
+  modules: [
+    "@nuxtjs/tailwindcss"
+  ],
+  routeRules: {
+    "/api/**": {
+      proxy: { to: "http://127.0.0.1:3333/**" }
+    }
   }
 });
