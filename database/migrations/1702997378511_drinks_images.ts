@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments("id");
-      table.binary("image").notNullable(); //* The image file of the drink
+      table.specificType("image", "MEDIUMBLOB").notNullable(); //* The image file of the drink
       table.integer("drink_id").unsigned().index().references("id").inTable("drinks").onDelete("CASCADE"); //* References the drink on the 'drinks' table
 
       table.timestamp("created_at", { useTz: true });

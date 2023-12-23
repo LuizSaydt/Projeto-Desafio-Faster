@@ -6,7 +6,7 @@ export default class DrinksImage extends BaseModel {
   public id: number;
 
   @column()
-  public image: string; //* Mysql BLOBs are binary strings
+  public image: Buffer; //* Mysql BLOBs are binary strings
 
   @column()
   public drinkId: number; //* ID of the drink for relationship
