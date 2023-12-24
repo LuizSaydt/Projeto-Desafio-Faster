@@ -1,0 +1,52 @@
+version: '3.8'
+
+name: desafio-faster
+
+services:
+  mysql-db:
+    image: mysql:8
+    ports:
+      - "3306:3306"  # Porta do MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: desafio-faster
+      MYSQL_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  adonis-backend:
+    build:
+      context: ./backend  # Caminho para o diretório do backend
+    ports:
+      - "3333:3333"  # Porta do backend Adonis
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      - PORT=3333
+      - HOST=0.0.0.0
+      - NODE_ENV=development
+      - APP_KEY=8F2hLW85tQf4nYfHLgSQKC2uXk3dm4Q3
+      - DRIVE_DISK=local
+      - DB_CONNECTION=mysql
+      - MYSQL_HOST=mysql-db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DB_NAME=desafio-faster
+      - SESSION_DRIVER=cookie
+    command: >
+      sh -c "npm run migration-run &&
+             dumb-init node server.js"
+
+  nuxt-frontend:
+    build:
+      context: ./frontend  # Caminho para o diretório do frontend
+    ports:
+      - "3000:3000"  # Porta do frontend Nuxt
+    depends_on:
+      - adonis-backend
+    environment:
+      - API_URL=http://adonis-backend:3333  # URL do backend para o frontend
