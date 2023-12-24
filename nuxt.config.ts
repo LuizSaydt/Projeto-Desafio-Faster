@@ -3,8 +3,12 @@
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
-  ssr: false,
-  spaLoadingTemplate: "spa-loading-template.html",
+  runtimeConfig: {
+    public: {
+      API_URL: process.env.API_URL || "http://adonis-backend:3333"
+    }
+  },
+  ssr: true,
   devtools: { enabled: true },
   typescript: {
     typeCheck: true,
@@ -15,7 +19,7 @@ export default defineNuxtConfig({
   ],
   routeRules: {
     "/api/**": {
-      proxy: { to: "http://127.0.0.1:3333/**" }
+      proxy: { to: process.env.API_URL+"/**" || "http://127.0.0.1:3333/**" }
     }
   }
 });
