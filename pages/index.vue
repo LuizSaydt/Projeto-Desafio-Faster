@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useFetch, useRequestHeaders } from "#app";
+import { useFetch, useRequestHeaders, refreshNuxtData } from "#app";
+
 import { ref } from "vue";
 import type { Drink, User } from "../interfaces";
 
@@ -12,28 +13,26 @@ defineExpose({ logout });
 const pending = ref<boolean>(true);
 const drinks = ref<Drink[]>([]);
 const error = ref<any>(null);
-const filteredDrinks = ref<Drink[]>([]);
+const filteredDrinks = ref<Drink[]>();
 
 // Get user session
 const headers = useRequestHeaders(["cookie"]);
-const { data: user } = await useFetch<User>("api/auth", { headers, credentials: "include" });
+const { data: user } = await useFetch<User>("api/auth", { key: String(Math.random()), server: false, headers, credentials: "include" });
 
-// Get all drinks from the backend and if logged in mark the favorites
-useFetch<Drink[]>("api/drinks").then(async res => {
-  pending.value = false;
-  drinks.value = res.data.value || [];
+// eslint-disable-next-line no-undef
+$fetch<Drink[]>("api/drinks").then(res => {
+  drinks.value = res || [];
   filteredDrinks.value = drinks.value;
-  error.value = res.error.value;
+  pending.value = false;
   updateFavorites();
-}, error => {
-  console.log("exception...");
-  console.log(error);
+}).catch(e => {
+  console.log(e);
 });
 
 async function logout () : Promise<void> {
-  await useFetch<User>("api/auth/sign-out", { method: "POST", headers, credentials: "include" });
+  await useFetch<User>("api/auth/sign-out", { server: false, method: "POST", headers, credentials: "include" });
   user.value = null;
-  window.location.reload();
+  refreshNuxtData();
 }
 
 //* When the checkboxes of categories changes then update the list of drinks
@@ -71,7 +70,6 @@ function onlyFavorites (value: boolean) : void {
 }
 
 async function updateFavorites () : Promise<void> {
-  console.log("aki");
   if (!user.value) {
     drinks.value?.forEach(drink => {
       drink.favorite = false;
@@ -79,7 +77,7 @@ async function updateFavorites () : Promise<void> {
     return;
   }
   try {
-    const favorites = await useFetch<Favorite[]>("api/favorite");
+    const favorites = await useFetch<Favorite[]>("api/favorite", { server: false });
     drinks.value?.forEach(drink => {
       drink.favorite = favorites.data.value?.some(fav => fav.id === drink.id);
     });

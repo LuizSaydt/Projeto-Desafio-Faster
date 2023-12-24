@@ -91,7 +91,7 @@ defineProps<{
             </li>
             <li>
               <a
-                href="#"
+                href="https://github.com/LuizSaydt/Projeto-Desafio-Faster"
                 class="block py-2 px-3 rounded md:p-0 md:hover:text-pink-500 text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
               >Sobre</a>
             </li>

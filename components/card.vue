@@ -23,8 +23,6 @@ const modal = ref<ModalInterface>();
 
 onMounted(() => {
 
-  console.log(props.user);
-
   const $modalElement: HTMLElement | null = document.querySelector(`#modal${props.id}`);
 
   if (!$modalElement) {
@@ -51,7 +49,7 @@ onMounted(() => {
 });
 
 function getDrinkImage () : void {
-  useFetch<string>("api/drink-image-base64/" + props.imageId).then(res => {
+  useFetch<string>("api/drink-image-base64/" + props.imageId, { server:false }).then(res => {
     pending.value = false;
     drinkImageBase64.value = res.data.value || "";
     error.value = res.error.value;
@@ -67,7 +65,7 @@ function changeFavoriteStatus () : void {
 }
 
 function favoriteDrink () : void {
-  useFetch<string>("api/favorite/" + props.id, { method: "POST" }).then(() => {
+  useFetch<string>("api/favorite/" + props.id, { server:false, method: "POST" }).then(() => {
     emit("updateFavorites");
   }, error => {
     console.log("exception...");
@@ -78,7 +76,7 @@ function favoriteDrink () : void {
 }
 
 function unFavoriteDrink () : void {
-  useFetch<string>("api/favorite/" + props.id, { method: "PATCH" }).then(() => {
+  useFetch<string>("api/favorite/" + props.id, { server:false, method: "PATCH" }).then(() => {
     emit("updateFavorites");
   }, error => {
     console.log("exception...");

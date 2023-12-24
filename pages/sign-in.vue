@@ -14,6 +14,7 @@ const rememberMe = ref<boolean>(false);
 
 const signIn = async () => {
   useFetch<string>("api/auth/sign-in", {
+    server: false,
     method: "POST",
     body: {
       username: username.value,

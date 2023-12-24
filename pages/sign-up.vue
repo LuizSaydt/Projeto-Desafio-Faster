@@ -14,6 +14,7 @@ const password = ref<string>();
 
 const signUp = async () => {
   useFetch<string>("api/auth/sign-up", {
+    server: false,
     method: "POST",
     body: {
       fullName: fullName.value,
