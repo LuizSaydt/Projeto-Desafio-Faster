@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   ],
   routeRules: {
     "/api/**": {
-      proxy: { to: process.env.API_URL+"/**" || "http://127.0.0.1:3333/**" }
+      proxy: { to: process.env.API_URL+"/**" || "http://adonis-backend:3333/**" }
     }
   }
 });
